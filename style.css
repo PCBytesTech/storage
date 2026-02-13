@@ -281,7 +281,8 @@ header h1 {
 /* Search inputs */
 #searchModel,
 #removeModelSearch,
-#renameModelSearch {
+#renameModelSearch,
+#removeSearchCorrection {
     background: rgba(255, 255, 255, 0.98) !important;
     border: 2px solid rgba(33, 150, 243, 0.3) !important;
     font-size: 14px !important;
@@ -292,7 +293,8 @@ header h1 {
 
 #searchModel::placeholder,
 #removeModelSearch::placeholder,
-#renameModelSearch::placeholder {
+#renameModelSearch::placeholder,
+#removeSearchCorrection::placeholder {
     color: #666;
     font-style: italic;
 }
@@ -742,6 +744,29 @@ tr:hover td {
     }
 }
 
+/* Correction Tools Specific Styles */
+#removeModelSelectCorrection {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 2px solid rgba(255, 152, 0, 0.3) !important;
+    height: 120px !important;
+    min-height: 120px !important;
+    max-height: 120px !important;
+}
+
+#removeLocationSelect {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 2px solid rgba(255, 152, 0, 0.3) !important;
+}
+
+#removeQtyInput {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 2px solid rgba(255, 152, 0, 0.3) !important;
+}
+
+#removeSearchCorrection {
+    border: 2px solid rgba(255, 152, 0, 0.3) !important;
+}
+
 /* Responsive */
 @media (max-width: 1240px) {
     .controls {
@@ -895,23 +920,4 @@ tr:hover td {
     .discord-notification p {
         font-size: 14px !important;
     }
-}
-
-/* Additional styles for correction tools */
-#removeModelSelectCorrection {
-    background: rgba(255, 255, 255, 0.95) !important;
-    border: 2px solid rgba(255, 152, 0, 0.3) !important;
-    height: 120px !important;
-    min-height: 120px !important;
-    max-height: 120px !important;
-}
-
-#removeLocationSelect {
-    background: rgba(255, 255, 255, 0.95) !important;
-    border: 2px solid rgba(255, 152, 0, 0.3) !important;
-}
-
-#removeQtyInput {
-    background: rgba(255, 255, 255, 0.95) !important;
-    border: 2px solid rgba(255, 152, 0, 0.3) !important;
 }
