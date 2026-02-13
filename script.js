@@ -134,8 +134,16 @@ const staffDisplayNameInput = document.getElementById("staffDisplayName");
 const searchModelInput = document.getElementById("searchModel");
 const modelSelect = document.getElementById("modelSelect");
 const actionSelect = document.getElementById("actionSelect");
+const requestedByGroup = document.getElementById("requestedByGroup");
+const requestedByInput = document.getElementById("requestedByInput");
 const qtyInput = document.getElementById("qtyInput");
 const processBtn = document.getElementById("processBtn");
+
+// Remove Quantity elements
+const removeModelSelectCorrection = document.getElementById("removeModelSelectCorrection");
+const removeLocationSelect = document.getElementById("removeLocationSelect");
+const removeQtyInput = document.getElementById("removeQtyInput");
+const removeQtyBtn = document.getElementById("removeQtyBtn");
 
 // Add Model elements
 const addModelName = document.getElementById("addModelName");
@@ -183,10 +191,9 @@ function isStaffNameValid() {
 }
 
 function showStaffNameRequiredNotification() {
-    showDiscordNotification("⚠️ STAFF NAME REQUIRED", "You MUST enter your staff name before performing any actions", "error");
+    showDiscordNotification("⚠️ STAFF NAME REQUIRED", "You MUST enter your name before performing any actions", "error");
     staffDisplayNameInput.style.borderColor = "#f44336";
     staffDisplayNameInput.style.borderWidth = "3px";
-    staffDisplayNameInput.style.borderStyle = "solid";
     staffDisplayNameInput.style.backgroundColor = "#fff0f0";
     staffDisplayNameInput.focus();
 }
@@ -197,9 +204,8 @@ function clearStaffNameError() {
     staffDisplayNameInput.style.backgroundColor = "rgba(255, 255, 255, 0.95)";
 }
 
-// ================= DISCORD-STYLE NOTIFICATIONS - MUCH BIGGER =================
+// ================= DISCORD-STYLE NOTIFICATIONS =================
 function showDiscordNotification(title, message, type = "success") {
-    // Remove any existing notification
     const existing = document.querySelector('.discord-notification');
     if (existing) {
         existing.remove();
@@ -214,7 +220,6 @@ function showDiscordNotification(title, message, type = "success") {
     
     document.body.appendChild(notification);
     
-    // Auto-close after 5 seconds
     setTimeout(() => {
         if (notification.parentNode) {
             notification.style.animation = 'discordFadeOut 0.3s ease forwards';
@@ -227,11 +232,10 @@ function showDiscordNotification(title, message, type = "success") {
     }, 5000);
 }
 
-// ================= TOAST NOTIFICATIONS - MUCH BIGGER =================
+// ================= TOAST NOTIFICATIONS =================
 function showToast(message, type = "info") {
     let toastContainer = document.getElementById("toastContainer");
     
-    // Create container if it doesn't exist
     if (!toastContainer) {
         toastContainer = document.createElement("div");
         toastContainer.id = "toastContainer";
@@ -249,7 +253,6 @@ function showToast(message, type = "info") {
     
     toastContainer.appendChild(toast);
     
-    // Remove toast after 5 seconds
     setTimeout(() => {
         if (toast.parentNode) {
             toast.style.animation = "discordFadeOut 0.3s ease forwards";
@@ -264,7 +267,6 @@ function showToast(message, type = "info") {
 
 // ================= ENTER KEY SUPPORT =================
 function setupEnterKeySupport() {
-    // Login form enter key
     staffNameInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -301,7 +303,6 @@ function setupEnterKeySupport() {
         }
     });
     
-    // Action form enter key
     qtyInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -309,7 +310,6 @@ function setupEnterKeySupport() {
         }
     });
     
-    // Add model enter key
     addModelName.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -317,7 +317,6 @@ function setupEnterKeySupport() {
         }
     });
     
-    // Add category enter key
     addCategoryName.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -325,7 +324,6 @@ function setupEnterKeySupport() {
         }
     });
     
-    // Rename model enter key
     renameModelNewName.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -333,7 +331,6 @@ function setupEnterKeySupport() {
         }
     });
     
-    // Staff display name enter key
     staffDisplayNameInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -347,7 +344,6 @@ function setupEnterKeySupport() {
         }
     });
     
-    // Date picker enter key
     datePicker.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -355,7 +351,6 @@ function setupEnterKeySupport() {
         }
     });
     
-    // Search fields enter key
     searchModelInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -417,8 +412,8 @@ function performLogin() {
     }
     
     currentStaff = username;
-    staffDisplayName = ""; // EMPTY - Force them to enter name!
-    staffDisplayNameInput.value = ""; // CLEAR the field - MUST enter name!
+    staffDisplayName = "";
+    staffDisplayNameInput.value = "";
     
     loginModal.style.display = "none";
     mainContent.classList.remove("hidden");
@@ -428,9 +423,8 @@ function performLogin() {
     loginError.textContent = "";
     clearStaffNameError();
     
-    // Focus on staff name input to encourage them to enter it
     staffDisplayNameInput.focus();
-    showToast("⚠️ Please enter your staff name", "warning");
+    showToast("⚠️ You MUST enter your name to perform actions", "warning");
 }
 
 showCreateForm.onclick = () => {
@@ -500,16 +494,28 @@ staffDisplayNameInput.addEventListener("input", () => {
     }
 });
 
-// Staff name blur event - validate when leaving the field
 staffDisplayNameInput.addEventListener("blur", () => {
     if (staffDisplayNameInput.value.trim() === "") {
         showStaffNameRequiredNotification();
     }
 });
 
+// ================= ACTION SELECT CHANGE =================
+actionSelect.addEventListener("change", () => {
+    if (actionSelect.value === "transfer") {
+        requestedByGroup.style.display = "flex";
+        requestedByInput.required = true;
+    } else {
+        requestedByGroup.style.display = "none";
+        requestedByInput.required = false;
+        requestedByInput.value = "";
+    }
+});
+
 // ================= DROPDOWN FUNCTIONS =================
 function populateAllDropdowns() {
     populateModelSelect();
+    populateModelSelectCorrection();
     populateAddModelCategory();
     populateRemoveModelSelect();
     populateRemoveCategorySelect();
@@ -540,7 +546,6 @@ function populateModelSelect() {
             categoryOption.disabled = true;
             categoryOption.style.backgroundColor = "#f0f0f0";
             categoryOption.style.fontWeight = "bold";
-            categoryOption.style.padding = "5px 0";
             modelSelect.appendChild(categoryOption);
             
             categoriesWithModels[category].forEach(model => {
@@ -559,6 +564,38 @@ function populateModelSelect() {
         option.textContent = searchTerm === "" ? "No models available" : "No matching models found";
         option.disabled = true;
         modelSelect.appendChild(option);
+    }
+}
+
+function populateModelSelectCorrection() {
+    removeModelSelectCorrection.innerHTML = '';
+    
+    const categoriesWithModels = {};
+    
+    for(const category in stock){
+        categoriesWithModels[category] = [];
+        Object.keys(stock[category]).forEach(model => {
+            categoriesWithModels[category].push(model);
+        });
+    }
+    
+    for(const category in categoriesWithModels){
+        if(categoriesWithModels[category].length > 0){
+            const categoryOption = document.createElement("option");
+            categoryOption.textContent = `──────── ${category} ────────`;
+            categoryOption.disabled = true;
+            categoryOption.style.backgroundColor = "#f0f0f0";
+            categoryOption.style.fontWeight = "bold";
+            removeModelSelectCorrection.appendChild(categoryOption);
+            
+            categoriesWithModels[category].forEach(model => {
+                const option = document.createElement("option");
+                option.value = model;
+                option.textContent = model;
+                option.dataset.category = category;
+                removeModelSelectCorrection.appendChild(option);
+            });
+        }
     }
 }
 
@@ -596,7 +633,6 @@ function populateRemoveModelSelect() {
             categoryOption.disabled = true;
             categoryOption.style.backgroundColor = "#f0f0f0";
             categoryOption.style.fontWeight = "bold";
-            categoryOption.style.padding = "5px 0";
             removeModelSelect.appendChild(categoryOption);
             
             categoriesWithModels[category].forEach(model => {
@@ -651,7 +687,6 @@ function populateRenameModelSelect() {
             categoryOption.disabled = true;
             categoryOption.style.backgroundColor = "#f0f0f0";
             categoryOption.style.fontWeight = "bold";
-            categoryOption.style.padding = "5px 0";
             renameModelSelect.appendChild(categoryOption);
             
             categoriesWithModels[category].forEach(model => {
@@ -729,7 +764,6 @@ addModelBtn.onclick = () => {
         return;
     }
     
-    // Check if model already exists in ANY category
     for(const cat in stock){
         if(stock[cat][modelName]){
             showDiscordNotification("❌ Model Exists", `Model "${modelName}" already exists in category "${cat}"`, "error");
@@ -737,7 +771,6 @@ addModelBtn.onclick = () => {
         }
     }
     
-    // Add model
     categories[category].push(modelName);
     stock[category][modelName] = {tech:0, shop:0, sold:0};
     
@@ -745,7 +778,6 @@ addModelBtn.onclick = () => {
     saveStock();
     saveStockHistory();
     
-    // Clear input and refresh
     addModelName.value = "";
     populateAllDropdowns();
     renderStock();
@@ -775,13 +807,9 @@ removeModelBtn.onclick = () => {
         return;
     }
     
-    // Remove from categories array
     categories[category] = categories[category].filter(m => m !== modelName);
-    
-    // Remove from stock
     delete stock[category][modelName];
     
-    // If category becomes empty, remove it
     if(Object.keys(stock[category]).length === 0){
         delete categories[category];
         delete stock[category];
@@ -825,7 +853,6 @@ renameModelBtn.onclick = () => {
         return;
     }
     
-    // Check if new name already exists in ANY category
     for(const cat in stock){
         if(stock[cat][newName]){
             showDiscordNotification("❌ Model Exists", `Model "${newName}" already exists in category "${cat}"`, "error");
@@ -833,13 +860,11 @@ renameModelBtn.onclick = () => {
         }
     }
     
-    // Rename in categories array
     const index = categories[category].indexOf(oldName);
     if(index > -1){
         categories[category][index] = newName;
     }
     
-    // Rename in stock
     stock[category][newName] = stock[category][oldName];
     delete stock[category][oldName];
     
@@ -847,7 +872,6 @@ renameModelBtn.onclick = () => {
     saveStock();
     saveStockHistory();
     
-    // Clear input and refresh
     renameModelNewName.value = "";
     renameModelSearch.value = "";
     populateAllDropdowns();
@@ -872,7 +896,6 @@ addCategoryBtn.onclick = () => {
         return;
     }
     
-    // Capitalize first letter
     const formattedName = categoryName.charAt(0).toUpperCase() + categoryName.slice(1);
     
     if(categories[formattedName]){
@@ -883,7 +906,6 @@ addCategoryBtn.onclick = () => {
     categories[formattedName] = [];
     stock[formattedName] = {};
     
-    // Assign a color for new category
     const colorKeys = Object.keys(categoryColors);
     const defaultColors = colorKeys.filter(k => k !== "Default");
     categoryColors[formattedName] = categoryColors[defaultColors[Object.keys(categories).length % defaultColors.length]];
@@ -892,7 +914,6 @@ addCategoryBtn.onclick = () => {
     saveStock();
     saveStockHistory();
     
-    // Clear input and refresh
     addCategoryName.value = "";
     populateAllDropdowns();
     renderStock();
@@ -920,7 +941,6 @@ removeCategoryBtn.onclick = () => {
         return;
     }
     
-    // Delete category
     delete categories[category];
     delete stock[category];
     
@@ -935,6 +955,73 @@ removeCategoryBtn.onclick = () => {
     showDiscordNotification("⚠️ Category Removed", `Removed category "${category}" with ${modelCount} models`, "warning");
 };
 
+// ================= REMOVE QUANTITY (CORRECTION) =================
+removeQtyBtn.onclick = () => {
+    if (!isStaffNameValid()) {
+        showStaffNameRequiredNotification();
+        return;
+    }
+    
+    const model = removeModelSelectCorrection.value;
+    const qty = Number(removeQtyInput.value);
+    const location = removeLocationSelect.value;
+    
+    if (!model) {
+        showDiscordNotification("❌ Error", "Please select a model", "error");
+        return;
+    }
+    
+    if (qty <= 0 || qty > 9999) {
+        showDiscordNotification("❌ Error", "Please enter a valid quantity (1-9999)", "error");
+        return;
+    }
+    
+    let category = null;
+    for (const c in stock) {
+        if (stock[c][model]) {
+            category = c;
+            break;
+        }
+    }
+    
+    if (!category) {
+        showDiscordNotification("❌ Error", "Model not found", "error");
+        return;
+    }
+    
+    const stockItem = stock[category][model];
+    
+    if (location === "tech" && stockItem.tech < qty) {
+        showDiscordNotification("❌ Insufficient Stock", `Not enough in Tech stock! Available: ${stockItem.tech}`, "error");
+        return;
+    }
+    
+    if (location === "shop" && stockItem.shop < qty) {
+        showDiscordNotification("❌ Insufficient Stock", `Not enough in Shop stock! Available: ${stockItem.shop}`, "error");
+        return;
+    }
+    
+    if (!confirm(`⚠️ Are you sure you want to REMOVE ${qty} from ${location.toUpperCase()} stock for "${model}"?\n\nThis action cannot be undone!`)) {
+        return;
+    }
+    
+    if (location === "tech") {
+        stockItem.tech -= qty;
+    } else {
+        stockItem.shop -= qty;
+    }
+    
+    saveStock();
+    saveStockHistory();
+    renderStock();
+    updateTotalSummary();
+    
+    addLog("remove_quantity", getDisplayName(), model, category, qty, `Removed from ${location}`);
+    showDiscordNotification("✅ Quantity Removed", `Removed ${qty} from ${location} stock: ${model}`, "warning");
+    
+    removeQtyInput.value = 1;
+};
+
 // ================= ERASE FUNCTIONS =================
 eraseStockBtn.onclick = () => {
     if (!isStaffNameValid()) {
@@ -946,7 +1033,6 @@ eraseStockBtn.onclick = () => {
         return;
     }
     
-    // Reset all stock counts to zero
     for(const category in stock){
         for(const model in stock[category]){
             stock[category][model] = {tech:0, shop:0, sold:0};
@@ -978,7 +1064,6 @@ eraseBtn.onclick = () => {
         return;
     }
     
-    // Clear all inventory data
     stock = {};
     logs = [];
     categories = {};
@@ -989,7 +1074,6 @@ eraseBtn.onclick = () => {
     localStorage.removeItem("pcCategories");
     localStorage.removeItem("pcStockHistory");
     
-    // Reinitialize
     initializeStock();
     populateAllDropdowns();
     renderStock();
@@ -1015,17 +1099,11 @@ processBtn.onclick = () => {
         return;
     }
     
-    if(qty <= 0){
-        showDiscordNotification("❌ Error", "Please enter a valid quantity", "error");
+    if(qty <= 0 || qty > 9999){
+        showDiscordNotification("❌ Error", "Please enter a valid quantity (1-9999)", "error");
         return;
     }
     
-    if(qty > 9999){
-        showDiscordNotification("❌ Error", "Quantity cannot exceed 9999", "error");
-        return;
-    }
-    
-    // Find category
     let category = null;
     for(const c in stock){
         if(stock[c][model]){
@@ -1054,6 +1132,7 @@ processBtn.onclick = () => {
             actionText = `Received ${qty} to Tech`;
             notificationTitle = "📥 Stock Received";
             logAction = "receive_to_tech";
+            addLog(logAction, getDisplayName(), model, category, qty);
             break;
             
         case "transfer":
@@ -1065,11 +1144,20 @@ processBtn.onclick = () => {
                 showDiscordNotification("❌ Error", "Cannot exceed maximum shop stock limit (9999)", "error");
                 return;
             }
+            
+            const requestedBy = requestedByInput.value.trim();
+            if (!requestedBy) {
+                showDiscordNotification("❌ Error", "Please enter who requested this item", "error");
+                requestedByInput.focus();
+                return;
+            }
+            
             stockItem.tech -= qty;
             stockItem.shop += qty;
             actionText = `Transferred ${qty} from Tech to Shop`;
             notificationTitle = "🔄 Stock Transferred";
             logAction = "transfer_tech_to_shop";
+            addLog(logAction, getDisplayName(), model, category, qty, `Requested by: ${requestedBy}`);
             break;
             
         case "return":
@@ -1086,6 +1174,7 @@ processBtn.onclick = () => {
             actionText = `Returned ${qty} from Shop to Tech`;
             notificationTitle = "↩️ Stock Returned";
             logAction = "return_shop_to_tech";
+            addLog(logAction, getDisplayName(), model, category, qty);
             break;
             
         case "sell":
@@ -1098,6 +1187,7 @@ processBtn.onclick = () => {
             actionText = `Sold ${qty} from Shop`;
             notificationTitle = "💰 Stock Sold";
             logAction = "sell_shop_to_customer";
+            addLog(logAction, getDisplayName(), model, category, qty);
             break;
             
         case "direct":
@@ -1110,6 +1200,7 @@ processBtn.onclick = () => {
             actionText = `Direct sold ${qty} from Tech`;
             notificationTitle = "🎯 Direct Sale";
             logAction = "direct_sell_tech_to_customer";
+            addLog(logAction, getDisplayName(), model, category, qty);
             break;
     }
     
@@ -1118,11 +1209,11 @@ processBtn.onclick = () => {
     renderStock();
     updateTotalSummary();
     
-    addLog(logAction, getDisplayName(), model, category, qty);
     showDiscordNotification(notificationTitle, `${actionText}: ${model}`, "success");
-    
-    // Reset quantity
     qtyInput.value = 1;
+    if (action === "transfer") {
+        requestedByInput.value = "";
+    }
 };
 
 // ================= RENDER FUNCTIONS =================
@@ -1151,7 +1242,6 @@ function renderStock(stockData = stock) {
             categoryShop += item.shop;
             categorySold += item.sold;
             
-            // Solid colors for each column
             html += `<tr>
                 <td style="background-color: ${categoryColor}">${model}</td>
                 <td style="background-color: ${columnColors.tech}">${item.tech}</td>
@@ -1215,16 +1305,16 @@ function addLog(action, user, model, category, quantity, extraInfo = "") {
     };
     
     logs.unshift(logEntry);
-    if(logs.length > 500) logs.pop(); // Keep more logs
+    if(logs.length > 500) logs.pop();
     
     saveLogs();
     updateLogDisplay();
 }
 
 function updateLogDisplay() {
-    let html = "<table><tr><th>Date</th><th>Time</th><th>Staff</th><th>Action</th><th>Model</th><th>Qty</th></tr>";
+    let html = "<table><tr><th>Date</th><th>Time</th><th>Staff</th><th>Action</th><th>Model</th><th>Qty/Details</th></tr>";
     
-    const recentLogs = logs.slice(0, 50); // Show more logs
+    const recentLogs = logs.slice(0, 50);
     
     recentLogs.forEach(log => {
         let actionText = "";
@@ -1243,11 +1333,15 @@ function updateLogDisplay() {
             case "erase_stock": actionText = "🗑️ Reset All Stock"; actionClass = "log-erase-stock"; break;
             case "erase_all": actionText = "💣 Erased All Data"; actionClass = "log-erase-all"; break;
             case "export": actionText = "📤 Exported Data"; actionClass = "log-export"; break;
+            case "remove_quantity": actionText = "➖ Removed Quantity"; actionClass = "log-remove-quantity"; break;
             default: actionText = log.action;
         }
         
-        if(log.action === "rename" && log.extraInfo){
-            actionText += ` to "${log.extraInfo}"`;
+        let details = "";
+        if (log.quantity) details += log.quantity;
+        if (log.extraInfo) {
+            if (details) details += " ";
+            details += `(${log.extraInfo})`;
         }
         
         html += `<tr class="${actionClass}">
@@ -1255,8 +1349,8 @@ function updateLogDisplay() {
             <td>${log.time}</td>
             <td>${log.user}</td>
             <td>${actionText}</td>
-            <td>${log.model}</td>
-            <td>${log.quantity || ""}</td>
+            <td>${log.model || ""}</td>
+            <td>${details}</td>
         </tr>`;
     });
     
@@ -1271,21 +1365,17 @@ exportBtn.onclick = () => {
         return;
     }
     
-    // Prepare data for export
     const exportData = [];
     
-    // Add headers
     exportData.push(["PC BYTES INVENTORY SYSTEM - EXPORT REPORT"]);
     exportData.push([`Generated on: ${new Date().toLocaleString()}`]);
     exportData.push([`Generated by: ${getDisplayName()}`]);
     exportData.push([`User Account: ${currentStaff}`]);
     exportData.push([""]);
     
-    // Add stock data header
     exportData.push(["STOCK DATA (Current)"]);
     exportData.push(["Category", "Model", "Tech Stock", "Shop Stock", "Sold", "Total"]);
     
-    // Add inventory data
     let grandTotal = 0;
     for(const category in stock){
         for(const model in stock[category]){
@@ -1303,11 +1393,9 @@ exportBtn.onclick = () => {
     exportData.push([""]);
     exportData.push([""]);
     
-    // Add logs header
     exportData.push(["ACTIVITY LOGS (Last 100 Actions)"]);
     exportData.push(["Date", "Time", "Staff Name", "Action", "Model", "Quantity", "Category/Details"]);
     
-    // Add recent logs (last 100)
     const recentLogs = logs.slice(0, 100);
     recentLogs.forEach(log => {
         let actionText = "";
@@ -1319,12 +1407,13 @@ exportBtn.onclick = () => {
             case "direct_sell_tech_to_customer": actionText = "Tech → Customer (Direct)"; break;
             case "add": actionText = "Added Model"; break;
             case "remove": actionText = "Removed Model"; break;
-            case "rename": actionText = `Renamed to "${log.extraInfo}"`; break;
+            case "rename": actionText = `Renamed`; break;
             case "add_category": actionText = "Added Category"; break;
             case "remove_category": actionText = "Removed Category"; break;
             case "erase_stock": actionText = "Reset All Stock"; break;
             case "erase_all": actionText = "Erased All Data"; break;
             case "export": actionText = "Exported Data"; break;
+            case "remove_quantity": actionText = "Removed Quantity"; break;
             default: actionText = log.action;
         }
         
@@ -1339,19 +1428,16 @@ exportBtn.onclick = () => {
         ]);
     });
     
-    // Add system info
     exportData.push([""]);
     exportData.push(["SYSTEM INFO"]);
     exportData.push(["Total Models:", Object.values(stock).reduce((sum, cat) => sum + Object.keys(cat).length, 0)]);
     exportData.push(["Total Categories:", Object.keys(categories).length]);
     exportData.push(["Total Log Entries:", logs.length]);
     
-    // Create CSV
     const csvContent = exportData.map(row => 
         row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(",")
     ).join("\n");
     
-    // Create download link
     const blob = new Blob(["\ufeff" + csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -1385,21 +1471,11 @@ logoutBtn.onclick = () => {
     }
 };
 
-// Auto-focus on username field when modal loads
 window.addEventListener('load', () => {
     if (loginModal.style.display !== "none") {
         staffNameInput.focus();
     }
 });
 
-// Initialize
 setTodayDate();
 updateLogDisplay();
-
-// Test notification system on load
-setTimeout(() => {
-    if (loginModal.style.display !== "none") {
-        // Test that notifications work
-        console.log("PC Bytes Inventory System Loaded - Notifications are ready");
-    }
-}, 100);
