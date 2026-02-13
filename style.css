@@ -1662,3 +1662,51 @@ button:disabled {
 .rotate-180 {
     transform: rotate(180deg);
 }
+
+/* ============= RETURNED BY - SHOWS FOR RETURN ============= */
+#returnedByRow {
+    display: none !important;
+    margin-top: -10px !important;
+    margin-bottom: 15px !important;
+    padding: 15px !important;
+    background: rgba(33, 150, 243, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(33, 150, 243, 0.3);
+    width: 100%;
+    align-items: flex-end !important;
+    min-height: 100px !important;
+}
+
+#returnedByRow[style*="display: flex"] {
+    display: flex !important;
+}
+
+.returned-group {
+    max-width: 350px !important;
+    min-width: 300px !important;
+    flex: 0 0 auto !important;
+}
+
+.returned-input {
+    border: 2px solid rgba(33, 150, 243, 0.5) !important;
+}
+
+.returned-input:focus {
+    border-color: #2196F3 !important;
+    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2) !important;
+}
+
+/* Log type color for return with returned by */
+.log-return td:nth-child(6) { 
+    color: #2196F3; 
+    font-style: italic; 
+}
+
+/* Responsive for returned by */
+@media (max-width: 768px) {
+    .returned-group {
+        max-width: 100%;
+        min-width: 100%;
+        flex: 1 1 100% !important;
+    }
+}
