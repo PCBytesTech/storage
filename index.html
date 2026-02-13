@@ -48,15 +48,15 @@
 <section class="controls">
     <!-- SEARCH & ACTION SECTION -->
     <div class="section-title">🔍 Search & Actions</div>
-    <div class="row">
+    <div class="row" id="actionsRow">
         <div class="input-group">
             <label for="searchModel">Search Model:</label>
             <input type="text" id="searchModel" placeholder="Type to search instantly..." class="fixed-border-input">
         </div>
         <div class="input-group dropdown-group">
-            <label for="modelSelect">Select Model: <span id="selectedModelDisplay" class="selected-badge"></span></label>
+            <label for="modelSelect">Select Model:</label>
             <div class="dropdown-container">
-                <select id="modelSelect" size="5" class="fixed-border-select dropdown-select">
+                <select id="modelSelect" class="fixed-border-select dropdown-select">
                     <option value="">Select a model...</option>
                 </select>
             </div>
@@ -80,16 +80,13 @@
         <button id="processBtn" class="btn-primary">✅ Process</button>
     </div>
 
-    <!-- REQUESTED BY - SEPARATE ROW PROPERLY ALIGNED -->
-    <div class="row requested-row" id="requestedByRow" style="display: none;">
+    <!-- REQUESTED BY - ONLY FOR TRANSFER, HIDDEN BY DEFAULT -->
+    <div class="row" id="requestedByRow" style="display: none;">
         <div class="input-group requested-group">
             <label for="requestedByInput">👤 Requested By:</label>
             <input type="text" id="requestedByInput" placeholder="Who requested this item? (Required)" class="fixed-border-input requested-input">
         </div>
-        <div class="input-group"></div>
-        <div class="input-group"></div>
-        <div class="input-group"></div>
-        <div style="width: 100px;"></div>
+        <div style="flex: 3;"></div>
     </div>
 
     <!-- REMOVE QUANTITY SECTION - WITH SEARCH BAR -->
@@ -100,9 +97,9 @@
             <input type="text" id="removeSearchCorrection" placeholder="Type to search models instantly..." class="fixed-border-input">
         </div>
         <div class="input-group dropdown-group">
-            <label for="removeModelSelectCorrection">Select Model: <span id="selectedRemoveDisplay" class="selected-badge warning-badge"></span></label>
+            <label for="removeModelSelectCorrection">Select Model:</label>
             <div class="dropdown-container">
-                <select id="removeModelSelectCorrection" size="5" class="fixed-border-select dropdown-select">
+                <select id="removeModelSelectCorrection" class="fixed-border-select dropdown-select">
                     <option value="">Select a model...</option>
                 </select>
             </div>
@@ -147,9 +144,9 @@
             <input type="text" id="removeModelSearch" placeholder="Type to search instantly..." class="fixed-border-input">
         </div>
         <div class="input-group dropdown-group">
-            <label for="removeModelSelect">Select to Remove: <span id="selectedRemoveModelDisplay" class="selected-badge danger-badge"></span></label>
+            <label for="removeModelSelect">Select to Remove:</label>
             <div class="dropdown-container">
-                <select id="removeModelSelect" size="5" class="fixed-border-select dropdown-select">
+                <select id="removeModelSelect" class="fixed-border-select dropdown-select">
                     <option value="">Select a model to remove...</option>
                 </select>
             </div>
@@ -163,9 +160,9 @@
             <input type="text" id="renameModelSearch" placeholder="Type to search instantly..." class="fixed-border-input">
         </div>
         <div class="input-group dropdown-group">
-            <label for="renameModelSelect">Select to Rename: <span id="selectedRenameDisplay" class="selected-badge warning-badge"></span></label>
+            <label for="renameModelSelect">Select to Rename:</label>
             <div class="dropdown-container">
-                <select id="renameModelSelect" size="5" class="fixed-border-select dropdown-select">
+                <select id="renameModelSelect" class="fixed-border-select dropdown-select">
                     <option value="">Select a model to rename...</option>
                 </select>
             </div>
@@ -187,7 +184,7 @@
         <button id="addCategoryBtn" class="btn-success">📁 Add Category</button>
         
         <div class="input-group dropdown-group">
-            <label for="removeCategorySelect">Remove Category: <span id="selectedCategoryDisplay" class="selected-badge danger-badge"></span></label>
+            <label for="removeCategorySelect">Remove Category:</label>
             <div class="dropdown-container">
                 <select id="removeCategorySelect" class="fixed-border-select">
                     <option value="">Select Category to Remove</option>
