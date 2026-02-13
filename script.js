@@ -1165,6 +1165,7 @@ eraseBtn.onclick = () => {
     addLog("erase_all", getDisplayName(), "", "ALL", 0);
     showDiscordNotification("💣 Data Erased", "All data has been erased", "warning");
 };
+
 // ================= INVENTORY PROCESSING =================
 processBtn.onclick = () => {
     if (!isStaffNameValid()) {
