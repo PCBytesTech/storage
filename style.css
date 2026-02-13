@@ -135,7 +135,7 @@ header h1 {
     padding: 6px 10px;
     border-radius: 4px;
     font-size: 12px;
-    width: 180px;
+    width: 220px;
     transition: all 0.3s;
 }
 
@@ -148,6 +148,7 @@ header h1 {
 #staffDisplayName::placeholder {
     color: #666;
     font-size: 11px;
+    font-weight: bold;
 }
 
 #currentUserSpan {
@@ -277,7 +278,7 @@ header h1 {
     resize: none !important;
 }
 
-/* Search inputs - FIXED */
+/* Search inputs */
 #searchModel,
 #removeModelSearch,
 #renameModelSearch {
@@ -292,6 +293,59 @@ header h1 {
 #searchModel::placeholder,
 #removeModelSearch::placeholder,
 #renameModelSearch::placeholder {
+    color: #666;
+    font-style: italic;
+}
+
+/* Requested By Input */
+#requestedByGroup {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+    min-width: 200px;
+    position: relative;
+    height: auto;
+    min-height: 65px;
+    flex-shrink: 0 !important;
+    box-sizing: border-box;
+}
+
+#requestedByGroup label {
+    font-weight: 500;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.9);
+    height: 20px;
+    line-height: 20px;
+    white-space: nowrap;
+}
+
+#requestedByInput {
+    padding: 8px 12px !important;
+    border-radius: 6px !important;
+    border: 2px solid rgba(255, 193, 7, 0.5) !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    color: #333 !important;
+    font-size: 14px !important;
+    transition: all 0.3s !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    height: 40px !important;
+    min-height: 40px !important;
+    max-height: 40px !important;
+    line-height: 20px !important;
+    position: relative !important;
+    z-index: 2 !important;
+    flex-shrink: 0 !important;
+}
+
+#requestedByInput:focus {
+    outline: none !important;
+    border-color: #FF9800 !important;
+    box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.2) !important;
+}
+
+#requestedByInput::placeholder {
     color: #666;
     font-style: italic;
 }
@@ -523,9 +577,10 @@ tr:hover td {
     color: #90CAF9;
 }
 
-/* Log type colors - SUBTLE */
+/* Log type colors */
 .log-receive td:nth-child(4) { color: #81C784; }
 .log-transfer td:nth-child(4) { color: #64B5F6; }
+.log-transfer td:nth-child(6) { color: #FFB74D; font-style: italic; }
 .log-return td:nth-child(4) { color: #FFB74D; }
 .log-sell td:nth-child(4) { color: #FF8A65; }
 .log-direct td:nth-child(4) { color: #BA68C8; }
@@ -537,8 +592,9 @@ tr:hover td {
 .log-erase-stock td:nth-child(4) { color: #FF8A65; }
 .log-erase-all td:nth-child(4) { color: #EF5350; }
 .log-export td:nth-child(4) { color: #26A69A; }
+.log-remove-quantity td:nth-child(4) { color: #FF8A65; font-weight: bold; }
 
-/* ============= DISCORD-STYLE NOTIFICATIONS - MUCH BIGGER ============= */
+/* Toast Notifications */
 #toastContainer {
     position: fixed !important;
     top: 20px !important;
@@ -591,7 +647,7 @@ tr:hover td {
     font-size: 22px !important;
 }
 
-/* Discord-style Action Notification - MUCH BIGGER */
+/* Discord-style Action Notification */
 .discord-notification {
     position: fixed !important;
     top: 20px !important;
@@ -718,7 +774,8 @@ tr:hover td {
     
     #modelSelect,
     #removeModelSelect,
-    #renameModelSelect {
+    #renameModelSelect,
+    #removeModelSelectCorrection {
         height: 100px !important;
     }
     
@@ -765,7 +822,6 @@ tr:hover td {
         margin: 5px 0;
     }
     
-    /* Mobile notification sizing */
     #toastContainer,
     .discord-notification {
         max-width: 90vw !important;
@@ -817,7 +873,6 @@ tr:hover td {
         padding: 8px;
     }
     
-    /* Mobile notification sizing */
     #toastContainer {
         max-width: 90vw !important;
     }
@@ -840,4 +895,23 @@ tr:hover td {
     .discord-notification p {
         font-size: 14px !important;
     }
+}
+
+/* Additional styles for correction tools */
+#removeModelSelectCorrection {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 2px solid rgba(255, 152, 0, 0.3) !important;
+    height: 120px !important;
+    min-height: 120px !important;
+    max-height: 120px !important;
+}
+
+#removeLocationSelect {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 2px solid rgba(255, 152, 0, 0.3) !important;
+}
+
+#removeQtyInput {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 2px solid rgba(255, 152, 0, 0.3) !important;
 }
