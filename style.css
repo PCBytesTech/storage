@@ -245,6 +245,33 @@ header h1 {
     height: 20px;
     line-height: 20px;
     white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Selected item displays */
+#selectedModelDisplay,
+#selectedRemoveDisplay,
+#selectedRemoveModelDisplay,
+#selectedRenameDisplay,
+#selectedCategoryDisplay {
+    font-size: 11px;
+    background: rgba(255, 152, 0, 0.2);
+    color: #FF9800;
+    padding: 2px 8px;
+    border-radius: 12px;
+    display: inline-block;
+    margin-left: 5px;
+    font-weight: 600;
+    border: 1px solid rgba(255, 152, 0, 0.5);
+}
+
+#selectedRemoveModelDisplay,
+#selectedCategoryDisplay {
+    background: rgba(244, 67, 54, 0.2);
+    color: #f44336;
+    border: 1px solid rgba(244, 67, 54, 0.5);
 }
 
 /* FIXED BORDER INPUTS AND SELECTS */
@@ -299,27 +326,45 @@ header h1 {
     font-style: italic;
 }
 
-/* Requested By Input */
-#requestedByGroup {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    flex: 1;
-    min-width: 200px;
-    position: relative;
-    height: auto;
-    min-height: 65px;
-    flex-shrink: 0 !important;
-    box-sizing: border-box;
+/* Stock Search */
+#stockSearch {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 2px solid rgba(33, 150, 243, 0.5);
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+    font-size: 14px;
+    transition: all 0.3s;
+    width: 250px;
+    height: 40px;
 }
 
-#requestedByGroup label {
-    font-weight: 500;
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.9);
-    height: 20px;
-    line-height: 20px;
-    white-space: nowrap;
+#stockSearch:focus {
+    outline: none;
+    border-color: #2196F3;
+    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+}
+
+#stockSearch::placeholder {
+    color: #666;
+    font-style: italic;
+}
+
+/* Requested By Row */
+#requestedByRow {
+    display: none;
+    margin-top: -5px;
+    margin-bottom: 15px;
+    padding: 15px;
+    background: rgba(255, 193, 7, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    width: 100%;
+}
+
+#requestedByRow .input-group {
+    max-width: 300px;
+    min-width: 250px;
 }
 
 #requestedByInput {
@@ -767,11 +812,41 @@ tr:hover td {
     border: 2px solid rgba(255, 152, 0, 0.3) !important;
 }
 
+/* Stock Overview Header */
+section > div:first-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    max-width: 1200px;
+}
+
+section > div:first-child h2 {
+    margin: 0;
+    color: white;
+}
+
+section > div:first-child label {
+    color: white;
+    font-weight: 500;
+    margin-right: 5px;
+}
+
 /* Responsive */
 @media (max-width: 1240px) {
     .controls {
         width: 95vw !important;
         max-width: 95vw !important;
+    }
+    
+    section > div:first-child {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+    
+    #stockSearch {
+        width: 100%;
     }
 }
 
@@ -845,6 +920,11 @@ tr:hover td {
     button {
         width: 100%;
         margin: 5px 0;
+    }
+    
+    #requestedByRow .input-group {
+        max-width: 100%;
+        min-width: 100%;
     }
     
     #toastContainer,
